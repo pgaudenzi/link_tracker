@@ -25,4 +25,13 @@ public class LinkTrackerRepositoryImpl implements LinkTrackerRepository {
             throw new InvalidIdException("Invalid id: " + id);
         }
     }
+
+    @Override
+    public void deleteLinkById(Long id) throws InvalidIdException {
+        if (links.containsKey(id)) {
+            links.remove(id);
+        } else {
+            throw new InvalidIdException("Invalid id: " + id);
+        }
+    }
 }

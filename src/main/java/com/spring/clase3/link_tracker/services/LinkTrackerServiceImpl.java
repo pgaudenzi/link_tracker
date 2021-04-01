@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Service
 public class LinkTrackerServiceImpl implements LinkTrackerService {
 
-    private AtomicLong id = new AtomicLong();
+    private final AtomicLong id = new AtomicLong();
 
     @Autowired
     private LinkTrackerRepository repository;
@@ -22,7 +22,7 @@ public class LinkTrackerServiceImpl implements LinkTrackerService {
     @Override
     public LinkDto generateLink(String url) throws InvalidUrlException {
         if (validateUrl(url)) {
-            LinkDto link = new LinkDto(id.incrementAndGet(), url);
+            LinkDto link = new LinkDto(id.incrementAndGet(), url, 0);
             repository.saveLink(link.getId(), link);
             return link;
         } else {
@@ -32,7 +32,19 @@ public class LinkTrackerServiceImpl implements LinkTrackerService {
 
     @Override
     public String searchLink(Long id) throws InvalidIdException {
-        return repository.findLinkById(id).getUrl();
+        LinkDto link = repository.findLinkById(id);
+        link.setStatistics(link.getStatistics() + 1);
+        return link.getUrl();
+    }
+
+    @Override
+    public Integer getStatistics(Long id) throws InvalidIdException {
+        return repository.findLinkById(id).getStatistics();
+    }
+
+    @Override
+    public void invalidateUrl(Long id) throws InvalidIdException {
+        repository.deleteLinkById(id);
     }
 
     private boolean validateUrl(String url) {

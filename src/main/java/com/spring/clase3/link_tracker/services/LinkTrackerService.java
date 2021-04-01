@@ -9,4 +9,8 @@ public interface LinkTrackerService {
     LinkDto generateLink(String url) throws InvalidUrlException;
 
     String searchLink(Long id) throws InvalidIdException;
+
+    Integer getStatistics(Long id) throws InvalidIdException;
+
+    void invalidateUrl(Long id) throws InvalidIdException;
 }

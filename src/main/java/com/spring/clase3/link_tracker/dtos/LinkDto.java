@@ -9,5 +9,6 @@ public class LinkDto {
 
     private Long id;
     private String url;
+    private int statistics;
 
 }

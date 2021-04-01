@@ -6,6 +6,9 @@ import com.spring.clase3.link_tracker.exceptions.InvalidIdException;
 public interface LinkTrackerRepository {
 
     void saveLink(Long id, LinkDto link);
+
     LinkDto findLinkById(Long id) throws InvalidIdException;
+
+    void deleteLinkById(Long Id) throws InvalidIdException;
 
 }
